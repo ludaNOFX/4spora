@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <script>
+        const roomId = 1; // ID комнаты
+        const socket = new WebSocket(`ws://${window.location.host}/ws/game/${roomId}/`);
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log(data.message);
+        };
+
+        socket.onclose = function(event) {
+            console.log('WebSocket closed');
+        };
+
+        // Отправка сообщения на сервер
+        socket.send(JSON.stringify({ 'message': 'Hello server' }));
+    </script>
+</body>
+</html>

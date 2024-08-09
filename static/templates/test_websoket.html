@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Room</title>
+</head>
+<body>
+    <h1>Game Room</h1>
+    <div id="game-info"></div>
+
+    <script>
+        var socket = new WebSocket('ws://127.0.0.1:8000/ws/game/{{ 1 }}/');
+
+        socket.onopen = function(event) {
+            console.log('WebSocket connection opened');
+        };
+
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data);
+            let message = data.message;
+            document.getElementById('game-info').innerHTML = message;
+        };
+
+        socket.onclose = function(event) {
+            console.log('WebSocket connection closed');
+        };
+
+        socket.onerror = function(event) {
+            console.error('WebSocket error:', event);
+        };
+    </script>
+</body>
+</html>
